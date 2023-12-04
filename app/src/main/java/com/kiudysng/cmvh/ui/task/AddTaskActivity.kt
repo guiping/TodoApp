@@ -1,10 +1,13 @@
 package com.kiudysng.cmvh.ui.task
 
 import android.app.Activity
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
@@ -23,6 +26,21 @@ class AddTaskActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // 隐藏导航栏
+//        window.decorView.systemUiVisibility = (
+//                View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
+//                        View.SYSTEM_UI_FLAG_FULLSCREEN
+//                )
+        // 在活动的onCreate方法中
+        window.requestFeature(Window.FEATURE_ACTION_BAR)
+        supportActionBar?.hide() // 隐藏默认的操作栏
+
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            val window = window
+//            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+//                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+//            window.statusBarColor = Color.TRANSPARENT
+//        }
         _binding = FragmentAddTodoBinding.inflate(layoutInflater)
         val root: View = binding.root
         setContentView(root)
