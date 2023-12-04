@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id("kotlin-android")
+    id("kotlin-kapt")
 }
 
 android {
@@ -48,4 +50,22 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+ 
+    implementation("androidx.room:room-runtime:2.5.0")
+    annotationProcessor("androidx.room:room-compiler:2.5.0")
+    // To use Kotlin annotation processing tool (kapt)
+    kapt("androidx.room:room-compiler:2.5.0")
+    // optional - Kotlin Extensions and Coroutines support for Room
+    implementation("androidx.room:room-ktx:2.5.0")
+
+    // 协程核心库
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.3")
+    // 协程Android支持库
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.3")
+    // 协程Java8支持库
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.4.3")
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+    //BaseQuickAdapter
+    implementation("io.github.cymchad:BaseRecyclerViewAdapterHelper4:4.1.0")
 }

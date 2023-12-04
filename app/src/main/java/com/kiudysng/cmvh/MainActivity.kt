@@ -1,5 +1,6 @@
 package com.kiudysng.cmvh
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import com.google.android.material.snackbar.Snackbar
@@ -12,6 +13,7 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import com.kiudysng.cmvh.databinding.ActivityMainBinding
+import com.kiudysng.cmvh.ui.task.AddTaskActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -27,10 +29,12 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(binding.appBarMain.toolbar)
 
         binding.appBarMain.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+//            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                .setAction("Action", null).show()
             //TODO 添加TODO
-
+          val intent = Intent(this@MainActivity,AddTaskActivity::class.java).apply {
+              startActivity(this)
+          }
         }
         val drawerLayout: DrawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navView

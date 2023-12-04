@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/viewRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintRoot"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/addTodoTitleText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text="@string/addtodo_title_text"
+            android:textColor="@color/text_secondary_color"
+            android:textSize="@dimen/font_size_title_1"
+            app:fontFamily="@font/robotoslab_black"
+            app:layout_constraintEnd_toStartOf="@id/saveTodo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/saveTodo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/selector_button_pill"
+            android:enabled="false"
+            android:gravity="center"
+            android:paddingStart="24dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="24dp"
+            android:paddingBottom="8dp"
+            android:text="@string/addtodo_save_todo_text"
+            android:textColor="@color/text_primary_revert_color"
+            android:textSize="@dimen/font_size_small"
+            app:layout_constraintBottom_toBottomOf="@id/addTodoTitleText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/addTodoTitleText" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/todoInput"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@null"
+            android:focusable="true"
+            android:hint="@string/addtodo_hint_text"
+            android:maxLength="64"
+            android:padding="16dp"
+            android:textColor="@color/text_primary_color"
+            android:textColorHint="@color/text_hint_color"
+            android:textSize="@dimen/font_size_title_2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/addTodoTitleText" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -23,14 +23,8 @@
 
     <style name="Theme.TodoApp.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <!-- 定义NavigationView的样式 -->
-    <style name="MyNavigationViewStyle" parent="Widget.Design.NavigationView">
-        <item name="android:layout_marginTop">8dp</item> <!-- 设置整体顶部间距 -->
-        <item name="android:layout_marginBottom">8dp</item> <!-- 设置整体底部间距 -->
-        
-    </style>
-    <!-- 定义自定义item样式 -->
-    <style name="MyNavigationItemTextAppearance" parent="@android:style/TextAppearance.Widget.TextView">
-        <item name="android:textSize">14sp</item> <!-- 设置item中文字的大小 -->
+    <style name="MyCheckBox" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@color/color_27ae60</item>
+        <item name="colorControlActivated">@color/color_f5e1cb</item>
     </style>
 </resources>
