@@ -1,4 +1,4 @@
-package com.kiudysng.cmvh.ui.home
+package com.kiudysng.cmvh.ui.gallery
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -13,35 +13,22 @@ import com.kiudysng.cmvh.ui.BaseViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class HomeViewModel : BaseViewModel() {
-
+class TaskHistoryViewModel : BaseViewModel() {
     val allTaskListLiveData = MutableLiveData<List<TaskEntity>>()
     private val taskDao: TaskDao by lazy {
         DbDatabase.buildDatabase(TaskApplication.appContext).taskDao()
     }
-
     fun getAllTaskList() { //获取所有数据
         viewModelScope.launch(Dispatchers.IO) {
-            val tempAllTaskData = taskDao.getAllTaskData()
+            val tempAllTaskData = taskDao.getAllNotConfirmTaskData()
             allTaskListLiveData.postValue(tempAllTaskData)
         }
     }
-
-    fun deleteItemTask(taskEntity: TaskEntity) {
-        viewModelScope.launch(Dispatchers.IO) {
-            val tempAllTaskData = taskDao.deleteItemTask(taskEntity)
-            Log.e("xxLog", "tempAllTaskData  = $tempAllTaskData")
-            if (tempAllTaskData != 0) {
-                getAllTaskList()
-            }
-        }
-    }
-
     override fun updateItemStatue(confirm: Int, createTime: Long) {
         viewModelScope.launch(Dispatchers.IO) {
-            val tempLong = taskDao.updateItemTask(confirm, createTime)
-            Log.e("xxLog", "更新数据confirm = $confirm --- createTime = $createTime")
-            if (tempLong != 0) {
+            val tempLong = taskDao.updateItemTask(confirm,createTime)
+            Log.e("xxLog","TaskHistoryFragment 更新数据confirm = $confirm --- createTime = $createTime")
+            if(tempLong != 0){
                 getAllTaskList()
             }
         }

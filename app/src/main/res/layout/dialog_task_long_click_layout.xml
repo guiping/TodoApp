@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_bottom_sheet"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <View
+        android:id="@+id/bottomSheetPill"
+        android:layout_width="56dp"
+        android:layout_height="4dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/bottom_sheet_pill" />
+
+    <TextView
+        android:id="@+id/tv_task_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/robotoslab_regular"
+        android:textColor="@color/black_primary"
+        android:textSize="15dp"
+        tools:text="这是Task详细描述" />
+
+    <TextView
+        android:id="@+id/tv_edit_todo"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginTop="10dp"
+        android:drawableStart="@drawable/icon_edit_todo"
+        android:drawablePadding="10dp"
+        android:gravity="center_vertical"
+        android:text="@string/str_edit_todo"
+        android:textColor="@color/icon_secondary_color" />
+
+    <TextView
+        android:id="@+id/tv_delete_todo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="30dp"
+        android:drawableStart="@drawable/icon_delete_todo"
+        android:drawablePadding="10dp"
+        android:gravity="center_vertical"
+        android:text="@string/str_delete_todo"
+        android:textColor="@color/icon_secondary_color" />
+</LinearLayout>

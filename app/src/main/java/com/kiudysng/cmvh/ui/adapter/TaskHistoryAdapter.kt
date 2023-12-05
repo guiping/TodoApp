@@ -2,23 +2,21 @@ package com.kiudysng.cmvh.ui.adapter
 
 import android.content.Context
 import android.graphics.Paint
+import android.util.Log
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.appcompat.widget.AppCompatCheckBox
 import com.chad.library.adapter4.BaseQuickAdapter
 import com.chad.library.adapter4.viewholder.QuickViewHolder
 import com.kiudysng.cmvh.R
 import com.kiudysng.cmvh.TaskApplication
 import com.kiudysng.cmvh.db.entity.TaskEntity
-import com.kiudysng.cmvh.ui.home.HomeViewModel
 import com.kiudysng.cmvh.utils.DataUtils
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.kiudysng.cmvh.ui.BaseViewModel
 import com.kiudysng.cmvh.utils.RxBus
 
 
-class TaskAdapter(val vm: BaseViewModel ) : BaseQuickAdapter<TaskEntity, QuickViewHolder>() {
+class TaskHistoryAdapter(val vm: BaseViewModel ) : BaseQuickAdapter<TaskEntity, QuickViewHolder>() {
 
     override fun onBindViewHolder(holder: QuickViewHolder, position: Int, item: TaskEntity?) {
         val checkBox = holder.getView<TextView>(R.id.ck_statue)
@@ -49,6 +47,7 @@ class TaskAdapter(val vm: BaseViewModel ) : BaseQuickAdapter<TaskEntity, QuickVi
                 checkBox.paintFlags = checkBox.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
             }
             checkBox.setOnClickListener {_->
+                Log.e("bLog","setOnCheckedChangeListener  ---- check=  ")
                 if (recyclerView.scrollState == RecyclerView.SCROLL_STATE_IDLE && !recyclerView.isComputingLayout) {
                     notifyItemRemoved(position)
                 }

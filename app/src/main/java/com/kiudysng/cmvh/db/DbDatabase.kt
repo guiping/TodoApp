@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import com.kiudysng.cmvh.db.dao.TaskDao
 import com.kiudysng.cmvh.db.entity.TaskEntity
 
-@Database(entities = [TaskEntity::class], version = 1, exportSchema = false)
+@Database(entities = [TaskEntity::class], version = 2, exportSchema = false)
 abstract class DbDatabase : RoomDatabase() {
     abstract fun taskDao():TaskDao
     companion object {

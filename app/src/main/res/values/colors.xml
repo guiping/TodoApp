@@ -55,7 +55,7 @@
     <color name="ripple_color_revert">#39FFFFFF</color>
     <color name="ripple_draw_color">#8F000000</color>
     <color name="ripple_draw_color_revert">#8FFFFFFF</color>
-
+    <color name="color_divider">@color/black_divider</color>
     <color name="grey_50">#FAFAFA</color>
     <color name="grey_100">#F5F5F5</color>
     <color name="grey_200">#EEEEEE</color>

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TodoApp</string>
+    <string name="app_name">Super Ox Todo</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Todo List</string>
@@ -9,7 +9,7 @@
 
     <string name="menu_home">Todo List</string>
     <string name="menu_gallery">Todo History</string>
-    <string name="menu_slideshow">Setting</string>
+    <string name="menu_slideshow">About me</string>
 
     <string name="addtodo_hint_text">Write down a todo…</string>
     <string name="addtodo_save_todo_text">Save</string>
@@ -18,4 +18,15 @@
     <string name="addtodo_date_tomorrow_text">Tomorrow</string>
     <string name="addtodo_title_text">Add todo</string>
     <string name="addtodo_scheduled_todo">Scheduled todo for %s</string>
+    <string name="str_edit_todo">Edit todo</string>
+    <string name="str_delete_todo">Delete todo forever</string>
+    <string name="str_app_detail">Thank you for choosing our SuperOxTodo app, a powerful memo software. We value user privacy and all data is stored locally on the device.
+
+With our app, you can easily create tasks and organize them by priority. Once a task is completed, you can mark it as done and archive it in the Todo History module for future reference.
+
+By long-pressing a task, you can conveniently edit its content or delete it, making your task management more flexible and efficient.
+
+For your convenience, we also provide a quick add task feature. Simply click the button in the lower right corner of the screen to create a new task quickly.
+
+We hope you will experience convenient and efficient task management while using our SuperOxTodo app!</string>
 </resources>
