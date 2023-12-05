@@ -68,4 +68,7 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.16.0")
     //BaseQuickAdapter
     implementation("io.github.cymchad:BaseRecyclerViewAdapterHelper4:4.1.0")
+
+    implementation ("com.appsflyer:af-android-sdk:6.9.0")
+    implementation ("com.google.code.gson:gson:2.10.1")
 }
