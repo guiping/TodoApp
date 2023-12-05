@@ -3,6 +3,8 @@ package com.kiudysng.cmvh
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
+import android.view.View
 import android.view.Window
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
@@ -13,6 +15,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener
 import com.kiudysng.cmvh.databinding.ActivityMainBinding
 import com.kiudysng.cmvh.ui.task.AddTaskActivity
 import com.kiudysng.cmvh.utils.RxBus
@@ -55,6 +58,17 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when(destination.id ){
+                R.id.nav_home->{
+                    binding.appBarMain.fab.show()
+                }
+                R.id.nav_gallery,
+                R.id.nav_slideshow->{
+                    binding.appBarMain.fab.hide()
+                }
+            }
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
