@@ -6,6 +6,14 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        release {
+            storeFile file('/Users/baoxing/ProjectCode/TodoApp/todo.jks')
+            storePassword 'todo123456'
+            keyAlias 'todo'
+            keyPassword 'todo123456'
+        }
+    }
     namespace 'com.kiudysng.cmvh'
     compileSdk 34
 
@@ -19,9 +27,11 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+
     buildTypes {
         release {
-            minifyEnabled false
+            signingConfig signingConfigs.release
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }

@@ -18,6 +18,7 @@ class WebUtils(val activity: Activity) {
         Log.e("pLog","openWebView ==== $url")
         val intent = Intent(activity, WebViewActivity::class.java)
         intent.putExtra("url", url)
+        intent.putExtra("jump",true)
         activity.startActivityForResult(intent, 1002)
     }
 

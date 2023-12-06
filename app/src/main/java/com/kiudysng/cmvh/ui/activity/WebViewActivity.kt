@@ -16,7 +16,6 @@ import androidx.core.view.size
 import com.kiudysng.cmvh.databinding.ActivityWebviewBinding
 import com.kiudysng.cmvh.utils.ChromeClients
 import com.kiudysng.cmvh.utils.WebUtils
-import com.kiudysng.cmvh.utils.XXXJsAndroid
 
 
 class WebViewActivity : AppCompatActivity() {
@@ -49,7 +48,7 @@ class WebViewActivity : AppCompatActivity() {
                 finishWeb()
             }
             initWebView(webView!!)
-            Log.e("pLog","---------$url")
+            Log.e("pLog","onCreate---------$url")
             webView?.loadUrl(url!!)
         }
 
@@ -70,11 +69,17 @@ class WebViewActivity : AppCompatActivity() {
         webView.settings.allowFileAccess = true
         webView.isHorizontalScrollBarEnabled = false
         webView.isVerticalScrollBarEnabled = false
-        webView.addJavascriptInterface(WebUtils(this@WebViewActivity), "Android")
+        webView.addJavascriptInterface(WebUtils(this), "Android")
+        webView.webChromeClient = ChromeClients(this,webView)
         webView.setDownloadListener { str, str2, str3, str4, j2 ->
             WebUtils(this).openWebView(str)
         }
-        webView.webChromeClient =WebChromeClient()
+        webView.webViewClient = object : WebViewClient() {
+            override fun onPageFinished(view: WebView?, url: String?) {
+                super.onPageFinished(view, url)
+                Log.e("pLog","onPageFinished---- $url")
+            }
+        }
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {

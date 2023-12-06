@@ -9,14 +9,11 @@ import android.util.Log
 import android.webkit.*
 import android.webkit.WebView.WebViewTransport
 
-class ChromeClients(var activity: Activity, var webView: WebView, private val type: Int) :
+class ChromeClients(var activity: Activity, var webView: WebView ) :
     WebChromeClient() {
     private val TAB = "ChromeClients"
     override fun onJsAlert(view: WebView, url: String, message: String, result: JsResult): Boolean {
-        if (type != 1) {
-            return true
-        }
-        val builder = AlertDialog.Builder(activity)
+               val builder = AlertDialog.Builder(activity)
         builder.setMessage(message)
             .setPositiveButton("OK") { arg0: DialogInterface, arg1: Int -> arg0.dismiss() }.show()
         result.cancel()
@@ -35,9 +32,7 @@ class ChromeClients(var activity: Activity, var webView: WebView, private val ty
                 view: WebView,
                 request: WebResourceRequest
             ): Boolean {
-                Log.e("ppLog", "请求地址 ---- \${}" + request.url)
-
-                return true
+                 return true
             }
 
             override fun onReceivedSslError(
