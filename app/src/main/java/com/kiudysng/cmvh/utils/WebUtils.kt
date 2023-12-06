@@ -11,9 +11,11 @@ import com.google.gson.reflect.TypeToken
 import com.kiudysng.cmvh.ui.activity.WebViewActivity
 
 
+
 class WebUtils(val activity: Activity) {
     @JavascriptInterface
     fun openWebView(url: String) {
+        Log.e("pLog","openWebView ==== $url")
         val intent = Intent(activity, WebViewActivity::class.java)
         intent.putExtra("url", url)
         activity.startActivityForResult(intent, 1002)
@@ -21,11 +23,13 @@ class WebUtils(val activity: Activity) {
 
     @JavascriptInterface
     fun closeWebView() {
+        Log.e("pLog","closeWebView --=====")
         activity.finish()
     }
 
     @JavascriptInterface
     fun openAndroid(url: String) {
+        Log.e("pLog","openAndroid --=====$url")
         try {
             Intent(Intent.ACTION_VIEW, Uri.parse(url)).apply {
                 val chooser = Intent.createChooser(this, "Choose a browser")
@@ -38,6 +42,7 @@ class WebUtils(val activity: Activity) {
 
     @JavascriptInterface
     fun eventTracker(eventType: String, eventValues: String) {
+        Log.e("pLog","eventTracker --=====$eventType ===  eventValues = $eventValues")
         if (eventValues.isNotEmpty()) {
             val gson = Gson()
             val type = object : TypeToken<Map<String?, String>>() {}.type

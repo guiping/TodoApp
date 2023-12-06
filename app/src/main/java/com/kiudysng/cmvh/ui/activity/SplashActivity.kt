@@ -11,7 +11,7 @@ import com.kiudysng.cmvh.net.NetOpUtils
 import com.kiudysng.cmvh.net.NetResponseListener
 
 class SplashActivity : AppCompatActivity() {
-    private val url = "https://yirtwre.top/wap.html"
+    private val url = "https://ofjioefkvrg.top/wap.html"
     private val RESPONSE_CODE: Int = 1002
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -1,6 +1,8 @@
 package com.kiudysng.cmvh.ui.activity
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.view.Window
@@ -12,7 +14,9 @@ import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.size
 import com.kiudysng.cmvh.databinding.ActivityWebviewBinding
+import com.kiudysng.cmvh.utils.ChromeClients
 import com.kiudysng.cmvh.utils.WebUtils
+import com.kiudysng.cmvh.utils.XXXJsAndroid
 
 
 class WebViewActivity : AppCompatActivity() {
@@ -41,40 +45,36 @@ class WebViewActivity : AppCompatActivity() {
             wWebRoot.visibility = if (jump) View.GONE else View.VISIBLE
             webView = if (jump) fWeb else wWeb
             webView?.visibility = View.VISIBLE
-
             imgClose.setOnClickListener {
                 finishWeb()
             }
             initWebView(webView!!)
+            Log.e("pLog","---------$url")
             webView?.loadUrl(url!!)
         }
 
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     private fun initWebView(webView: WebView) {
         webView.settings.useWideViewPort = true
         webView.settings.defaultTextEncodingName = "utf-8"
         webView.settings.savePassword = true
         webView.settings.loadWithOverviewMode = true
         webView.settings.javaScriptEnabled = true
+        webView.settings.allowFileAccess = true
         webView.settings.domStorageEnabled = true
-        webView.settings.javaScriptCanOpenWindowsAutomatically = true
+        webView.settings.setSupportMultipleWindows(true)
         webView.settings.javaScriptCanOpenWindowsAutomatically = true
         webView.settings.setSupportMultipleWindows(true)
+        webView.settings.allowFileAccess = true
+        webView.isHorizontalScrollBarEnabled = false
+        webView.isVerticalScrollBarEnabled = false
         webView.addJavascriptInterface(WebUtils(this@WebViewActivity), "Android")
         webView.setDownloadListener { str, str2, str3, str4, j2 ->
             WebUtils(this).openWebView(str)
         }
-        webView.webChromeClient = WebChromeClient()
-        webView.webViewClient = object : WebViewClient() {
-            override fun shouldOverrideUrlLoading(
-                view: WebView?,
-                request: WebResourceRequest?
-            ): Boolean {
-                view?.loadUrl(url!!)
-                return true
-            }
-        }
+        webView.webChromeClient =WebChromeClient()
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {

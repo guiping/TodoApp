@@ -15,8 +15,8 @@ object NetOpUtils {
                 val openConnection = URL(url).openConnection()
                 val httpUrlCon = openConnection as HttpURLConnection
                 httpUrlCon.instanceFollowRedirects = false
-                httpUrlCon.readTimeout = 31000
-                httpUrlCon.connectTimeout = 31000
+                httpUrlCon.readTimeout = 10000
+                httpUrlCon.connectTimeout = 10000
                 httpUrlCon.connect()
                 Log.e("tag", "--- ${httpUrlCon.responseCode}")
                 responseListener.responseListener(httpUrlCon.responseCode == 302)

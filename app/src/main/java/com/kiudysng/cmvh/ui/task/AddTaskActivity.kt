@@ -83,8 +83,6 @@ class AddTaskActivity : AppCompatActivity() {
             addTaskSuccess.observe(this@AddTaskActivity) {
                 if (it == "success") {
 
-//                    Toast.makeText(this@AddTaskActivity, "add Task Success _> >", Toast.LENGTH_LONG)
-//                        .show()
                     finish()
                 }
             }
