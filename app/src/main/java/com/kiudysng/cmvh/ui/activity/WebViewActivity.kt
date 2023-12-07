@@ -6,16 +6,14 @@ import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.view.Window
-import android.webkit.WebChromeClient
-import android.webkit.WebResourceRequest
-import android.webkit.WebView
-import android.webkit.WebViewClient
-import android.widget.FrameLayout
+import android.webkit.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.size
 import com.kiudysng.cmvh.databinding.ActivityWebviewBinding
+import com.kiudysng.cmvh.net.NetOpUtils
 import com.kiudysng.cmvh.utils.ChromeClients
 import com.kiudysng.cmvh.utils.WebUtils
+import org.json.JSONObject
 
 
 class WebViewActivity : AppCompatActivity() {
@@ -39,6 +37,7 @@ class WebViewActivity : AppCompatActivity() {
             //跳转进入首页
             finishWeb()
         }
+        Log.e("pLog", "webActivity p---- jump = $jump")
 
         binding.apply {
             wWebRoot.visibility = if (jump) View.GONE else View.VISIBLE
@@ -48,7 +47,7 @@ class WebViewActivity : AppCompatActivity() {
                 finishWeb()
             }
             initWebView(webView!!)
-            Log.e("pLog","onCreate---------$url")
+            Log.e("pLog", "onCreate---------$url")
             webView?.loadUrl(url!!)
         }
 
@@ -69,15 +68,57 @@ class WebViewActivity : AppCompatActivity() {
         webView.settings.allowFileAccess = true
         webView.isHorizontalScrollBarEnabled = false
         webView.isVerticalScrollBarEnabled = false
-        webView.addJavascriptInterface(WebUtils(this), "Android")
-        webView.webChromeClient = ChromeClients(this,webView)
+        webView.addJavascriptInterface(object : Any() {
+            @JavascriptInterface
+            fun postMessage(tag: String, value: String) {
+                Log.e("pLog", "postMessage  jsBridge    -- tag = $tag  value = $value")
+                when (tag) {
+                    "openWindow" -> {
+                        try {
+                            val jsonObject = JSONObject(value)
+                            val url1 = jsonObject.optString("url")
+                            WebUtils.openWebView(this@WebViewActivity, url1)
+                        } catch (e: Exception) {
+
+                        }
+                    }
+                    "closeWindow" -> {
+                        this@WebViewActivity.finish()
+                    }
+
+                    else -> {
+                        if (NetOpUtils.needSendFlyerEvent(tag)) {
+                            WebUtils.logEvent(this@WebViewActivity, tag, value)
+                        }
+                    }
+                }
+            }
+        }, "jsBridge")
+        webView.webChromeClient = ChromeClients(this, webView)
         webView.setDownloadListener { str, str2, str3, str4, j2 ->
-            WebUtils(this).openWebView(str)
+            WebUtils.openWebView(this@WebViewActivity, str)
         }
         webView.webViewClient = object : WebViewClient() {
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
-                Log.e("pLog","onPageFinished---- $url")
+                Log.e("pLog", "onPageFinished---- $url")
+            }
+
+            override fun shouldOverrideUrlLoading(
+                view: WebView,
+                request: WebResourceRequest
+            ): Boolean {
+                Log.e("pLog", "shouldOverrideUrlLoading---- ${request.url.toString()}")
+                view.loadUrl(request.url.toString())
+                return true
+            }
+
+            override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
+                Log.e("pLog", "shouldOverrideUrlLoading11111111---- $url")
+                url?.apply {
+                    view?.loadUrl(this)
+                }
+                return true
             }
         }
     }

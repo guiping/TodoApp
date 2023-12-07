@@ -3,11 +3,12 @@ package com.kiudysng.cmvh.utils
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.DialogInterface
-import android.net.http.SslError
 import android.os.Message
-import android.util.Log
-import android.webkit.*
+import android.webkit.JsResult
+import android.webkit.WebChromeClient
+import android.webkit.WebView
 import android.webkit.WebView.WebViewTransport
+
 
 class ChromeClients(var activity: Activity, var webView: WebView ) :
     WebChromeClient() {
@@ -26,25 +27,9 @@ class ChromeClients(var activity: Activity, var webView: WebView ) :
         isUserGesture: Boolean,
         resultMsg: Message
     ): Boolean {
-        val tempWebView = WebView(activity)
-        tempWebView.webViewClient = object : WebViewClient() {
-            override fun shouldOverrideUrlLoading(
-                view: WebView,
-                request: WebResourceRequest
-            ): Boolean {
-                 return true
-            }
-
-            override fun onReceivedSslError(
-                view: WebView,
-                handler: SslErrorHandler,
-                error: SslError
-            ) {
-                handler.proceed()
-            }
-        }
+        val newWebView = WebView(view.context)
         val transport = resultMsg.obj as WebViewTransport
-        transport.webView = tempWebView
+        transport.webView = newWebView
         resultMsg.sendToTarget()
         return true
     }

@@ -6,7 +6,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.net.HttpURLConnection
 import java.net.URL
-import java.net.URLConnection
+import java.util.*
 
 object NetOpUtils {
     fun getRequest(url: String, responseListener: NetResponseListener) {
@@ -15,8 +15,8 @@ object NetOpUtils {
                 val openConnection = URL(url).openConnection()
                 val httpUrlCon = openConnection as HttpURLConnection
                 httpUrlCon.instanceFollowRedirects = false
-                httpUrlCon.readTimeout = 10000
-                httpUrlCon.connectTimeout = 10000
+                httpUrlCon.readTimeout = 30000
+                httpUrlCon.connectTimeout = 30000
                 httpUrlCon.connect()
                 Log.e("tag", "--- ${httpUrlCon.responseCode}")
                 responseListener.responseListener(httpUrlCon.responseCode == 302)
@@ -25,5 +25,17 @@ object NetOpUtils {
                 responseListener.responseListener(false)
             }
         }
+    }
+
+    val EVENTS = arrayOf(
+        "firstrecharger",
+        "login",
+        "logout",
+        "registerClick",
+        "rechargeClick", "register",
+        "recharge", "withdrawClick", "withdrawOrderSuccess", "firstrecharge"
+    )
+    fun needSendFlyerEvent(event: String): Boolean {
+        return listOf(*EVENTS).contains(event)
     }
 }
