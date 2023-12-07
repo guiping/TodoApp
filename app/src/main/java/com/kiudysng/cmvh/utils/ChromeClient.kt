@@ -12,6 +12,7 @@ import android.webkit.WebView.WebViewTransport
 
 class ChromeClients(var activity: Activity, var webView: WebView) :
     WebChromeClient() {
+   var newWebView: WebView? = null
     private val TAB = "ChromeClients"
     override fun onJsAlert(view: WebView, url: String, message: String, result: JsResult): Boolean {
         val builder = AlertDialog.Builder(activity)
@@ -27,16 +28,20 @@ class ChromeClients(var activity: Activity, var webView: WebView) :
         isUserGesture: Boolean,
         resultMsg: Message
     ): Boolean {
-        val newWebView = WebView(view.context)
-
-        newWebView.webViewClient = object : WebViewClient() {
+        if (newWebView != null) {
+            return true
+        }
+         newWebView = WebView(view.context)
+// 设置 WebView 属性，如加载方式、JavaScript 支持等
+        newWebView?.settings?.javaScriptEnabled = true
+        newWebView?.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(
                 view: WebView,
                 request: WebResourceRequest
             ): Boolean {
-                Log.e("pLog", "请求地址 ---- ${request.url}")
-                WebUtils.openWebView(activity, request.url.toString())
+                Log.e("pLog", "请求地址 ---- ${request.url}    ---\n ${view.url}")
 
+                    WebUtils.openWebView(activity, request.url.toString())
                 return true
             }
 

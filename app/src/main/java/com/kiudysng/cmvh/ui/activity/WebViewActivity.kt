@@ -1,6 +1,8 @@
 package com.kiudysng.cmvh.ui.activity
 
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
@@ -96,7 +98,9 @@ class WebViewActivity : AppCompatActivity() {
         }, "jsBridge")
         webView.webChromeClient = ChromeClients(this, webView)
         webView.setDownloadListener { str, str2, str3, str4, j2 ->
-            WebUtils.openWebView(this@WebViewActivity, str)
+
+            WebUtils.openAndroid(this@WebViewActivity, str)
+            finish()
         }
         webView.webViewClient = object : WebViewClient() {
             override fun onPageFinished(view: WebView?, url: String?) {
@@ -109,16 +113,19 @@ class WebViewActivity : AppCompatActivity() {
                 request: WebResourceRequest
             ): Boolean {
                 Log.e("pLog", "shouldOverrideUrlLoading---- ${request.url.toString()}")
-                view.loadUrl(request.url.toString())
-                return true
-            }
-
-            override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
-                Log.e("pLog", "shouldOverrideUrlLoading11111111---- $url")
-                url?.apply {
-                    view?.loadUrl(this)
+                val loadUrl = request?.url.toString()
+                if (loadUrl != null && loadUrl.startsWith("tg:") || loadUrl.startsWith("fb://")) {
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                    startActivity(intent)
+                    return true
                 }
-                return true
+                if (loadUrl.startsWith("file://")) {
+                    // 如果 URL 协议为 file://，则启动 APK 安装程序
+                    WebUtils.openAndroid(this@WebViewActivity, loadUrl)
+                    finish()
+                    return true
+                }
+                return false
             }
         }
     }

@@ -27,6 +27,7 @@ class SplashActivity : AppCompatActivity() {
                     putExtra("jump", success)
                     putExtra("url", url)
                     startActivityForResult(this, RESPONSE_CODE)
+                    if (success) finish()
                 }
             }
         })
