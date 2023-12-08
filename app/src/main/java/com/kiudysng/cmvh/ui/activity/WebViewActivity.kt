@@ -3,14 +3,13 @@ package com.kiudysng.cmvh.ui.activity
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.view.KeyEvent
 import android.view.View
 import android.view.Window
 import android.webkit.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.size
 import com.kiudysng.cmvh.databinding.ActivityWebviewBinding
 import com.kiudysng.cmvh.net.NetOpUtils
 import com.kiudysng.cmvh.utils.ChromeClients
@@ -56,21 +55,22 @@ class WebViewActivity : AppCompatActivity() {
     }
 
     @SuppressLint("SetJavaScriptEnabled")
-    private fun initWebView(webView: WebView) {
-        webView.settings.useWideViewPort = true
-        webView.settings.defaultTextEncodingName = "utf-8"
-        webView.settings.savePassword = true
-        webView.settings.loadWithOverviewMode = true
-        webView.settings.javaScriptEnabled = true
-        webView.settings.allowFileAccess = true
-        webView.settings.domStorageEnabled = true
-        webView.settings.setSupportMultipleWindows(true)
-        webView.settings.javaScriptCanOpenWindowsAutomatically = true
-        webView.settings.setSupportMultipleWindows(true)
-        webView.settings.allowFileAccess = true
-        webView.isHorizontalScrollBarEnabled = false
-        webView.isVerticalScrollBarEnabled = false
-        webView.addJavascriptInterface(object : Any() {
+    private fun initWebView(webVie: WebView) {
+        val webSettings: WebSettings =  webVie.getSettings()
+        webSettings.javaScriptEnabled = true
+        webSettings.domStorageEnabled = true
+        webSettings.javaScriptCanOpenWindowsAutomatically = true
+        webSettings.cacheMode = WebSettings.LOAD_CACHE_ELSE_NETWORK
+        webSettings.setSupportZoom(true)
+        webSettings.useWideViewPort = true
+        webSettings.layoutAlgorithm = WebSettings.LayoutAlgorithm.SINGLE_COLUMN
+        webSettings.displayZoomControls = true
+        if (Build.VERSION.SDK_INT >= 19) {
+            WebView.setWebContentsDebuggingEnabled(true);
+        }
+        webVie.isHorizontalScrollBarEnabled = false
+        webVie.isVerticalScrollBarEnabled = false
+        webVie.addJavascriptInterface(object : Any() {
             @JavascriptInterface
             fun postMessage(tag: String, value: String) {
                 Log.e("pLog", "postMessage  jsBridge    -- tag = $tag  value = $value")
@@ -96,70 +96,54 @@ class WebViewActivity : AppCompatActivity() {
                 }
             }
         }, "jsBridge")
-        webView.webChromeClient = ChromeClients(this, webView)
-        webView.setDownloadListener { str, str2, str3, str4, j2 ->
-
-            WebUtils.openAndroid(this@WebViewActivity, str)
-            finish()
+//        webVie.webChromeClient = ChromeClients(this, webVie)
+        webVie.setDownloadListener { str, str2, str3, str4, j2 ->
+            val i = Intent("android.intent.action.VIEW")
+            i.data = Uri.parse(url)
+            this@WebViewActivity.startActivity(i)
         }
-        webView.webViewClient = object : WebViewClient() {
+        webVie.webViewClient = object : WebViewClient() {
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
                 Log.e("pLog", "onPageFinished---- $url")
             }
-
             override fun shouldOverrideUrlLoading(
                 view: WebView,
                 request: WebResourceRequest
             ): Boolean {
-                Log.e("pLog", "shouldOverrideUrlLoading---- ${request.url.toString()}")
-                val loadUrl = request?.url.toString()
-                if (loadUrl != null && loadUrl.startsWith("tg:") || loadUrl.startsWith("fb://")) {
-                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-                    startActivity(intent)
+                if (request.url.toString().startsWith("http") || request.url.toString()
+                        .startsWith("https")
+                ) {
+                    if (!request.url.toString()
+                            .contains("https://landing-page.cdn-dysxb.com/8k8/") && !request.url.toString()
+                            .contains("https://t.me/cskh_8k8")
+                    ) {
+                        this@WebViewActivity.webView?.loadUrl(request.url.toString())
+                        return true
+                    }
+
+                    val i = Intent("android.intent.action.VIEW")
+                    i.data = Uri.parse(request.url.toString())
+                    this@WebViewActivity.startActivity(i)
                     return true
                 }
-                if (loadUrl.startsWith("file://")) {
-                    // 如果 URL 协议为 file://，则启动 APK 安装程序
-                    WebUtils.openAndroid(this@WebViewActivity, loadUrl)
-                    finish()
-                    return true
-                }
-                return false
+                return true
             }
         }
     }
 
-    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        return onKeyDown()
-    }
 
     private fun finishWeb() {
         setResult(-2)
         finish()
     }
 
-    fun onKeyDown(): Boolean {
-        return if (webView == null) {
-            finish()
-            true
-        } else if (webView!!.canGoBack()) {
+    // androidx.activity.ComponentActivity, android.app.Activity
+    override fun onBackPressed() {
+        if (this.webView?.canGoBack() == true) {
             this.webView?.goBack()
-            true
-        } else if (webView!!.size > 0) {
-//            (findViewById<View>() as FrameLayout).removeView(webView)
-//            val aab2: WebView = this.f3845aaz.aab()
-//            this.webView = aab2
-//            if (aab2 != null) {
-//                aab2.visibility = 0
-//                this.f3844aay.aaf(this.f3841aav)
-//                return true
-//            }
-            finish()
-            true
         } else {
             finish()
-            true
         }
     }
 
