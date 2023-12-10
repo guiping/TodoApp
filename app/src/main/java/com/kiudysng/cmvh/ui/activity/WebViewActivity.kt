@@ -96,7 +96,7 @@ class WebViewActivity : AppCompatActivity() {
                 }
             }
         }, "jsBridge")
-//        webVie.webChromeClient = ChromeClients(this, webVie)
+        webVie.webChromeClient = ChromeClients(this, webVie)
         webVie.setDownloadListener { str, str2, str3, str4, j2 ->
             val i = Intent("android.intent.action.VIEW")
             i.data = Uri.parse(url)
